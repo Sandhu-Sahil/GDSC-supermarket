@@ -1,0 +1,56 @@
+{% extends "market/layout.html" %}
+
+{% block body %}
+
+    <h2 style="text-align: center; text-decoration: underline; margin-bottom: 15px; font-weight: 700;"><span style="padding: 3px; margin-bottom: 15px;">Register</span></h2>
+
+    {% if message %}
+        <div style="text-align: center; margin-bottom: 15px;"><span style="background: #c10230; color: white; border-radius: 25px; padding: 10px;  margin-bottom: 15px;">{{ message }}</span></div>
+    {% endif %}
+    <div class="login">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form__field">
+                <!-- <label for="formInput#text">{{field.label}}</label> -->
+                <div style="margin-top: 1rem;">{{field}}</div>
+
+                <!-- {% if field.help_text %}
+                <small>{{field.help_text}}</small>
+                {% endif %} -->
+
+                {% for error in field.errors %}
+                <small style="color: #c10230; background-color: white; border-radius: 25px; ">{{error}}</small>
+                <br/>
+                {% endfor %}
+
+            </div>
+            {% endfor %}
+            <!-- <div class="form-group">
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email Address">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+            </div> -->
+            <div style="text-align: center; margin-top: 1rem;">
+                <input class="btn btn-primary" type="submit" value="Register">
+            </div>
+            
+        </form>
+    </div>
+    <br>
+    <div style="text-align: center; ">
+        <span style="border-radius: 3px; padding: 3px; margin: 5px;  background-color: white; padding-left: 10px; padding-right: 10px; border-radius: 25px;">
+             Already have an account? <a href="{% url 'login' %}" style="color: blue;">Log-in here.</a>
+        </span>
+    </div>    
+
+   
+
+{% endblock %}

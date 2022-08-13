@@ -1,0 +1,38 @@
+{% extends "market/layout.html" %}
+{% load static %}
+{% block body %}
+
+<div>
+    <div style="text-align: center;">
+        <h1 style="font-weight: 1000; font-size: 40px;">{{category_name}}</h1>
+    </div>
+    {% if products %}
+    <div class="container-fluid">
+        <div class="row" style="justify-content: center;">
+            {% for product in products %}
+                <div class="card list-details col-lg-2 col-sm-12" style="margin-left: 2rem; margin-right: 2rem; margin-top: 2rem; margin-bottom: 2rem; cursor: pointer;" onclick="location.href=`{% url 'product_view' product=product.id %}`;">
+                    <div class="card-body">
+                    <h5 class="card-title product-title product-description" style="text-align: center;"><i>{{product.title}}</i></h5>
+                    <h6 class="card-subtitle mb-2 text-muted product-description" style="text-align: center;">Price:  &#8377;{{product.price}}/{{product.unit}}</h6>
+                    <div class="" style="text-align: center; height: 40px; ">
+                        <a href="{% url 'product_view' product=product.id %}" >View Product<i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                    {% if product.image %}
+                        <img class="img-fluid" src="{{product.image.url}}" alt="connect" style="max-height:300px;  width: 100%;">
+                    {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                        
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+        <div class="empty" style="text-align: center;">
+            <p><span style="background: #c10230; color: white; border-radius: 25px; padding: 5px;">This category doesn't have product.</span></p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

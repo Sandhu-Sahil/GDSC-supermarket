@@ -1,0 +1,27 @@
+{% extends "market/layout.html" %}
+{% load static %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row" style="justify-content: center;">
+            {% for product in products.all %}
+            
+                <div class="card list-details col-lg-2 col-sm-12 " style="margin-left: 2rem; margin-right: 2rem; margin-top: 2rem; margin-bottom: 2rem; cursor: pointer;" onclick="location.href=`{% url 'product_view' product=product.id %}`;">
+                    <div class="card-body">
+                    <h5 class="card-title product-title product-description" style="text-align: center;"><i>{{product.title}}</i></h5>
+                    <h6 class="card-subtitle mb-2 text-muted product-description" style="text-align: center;">Price:  &#8377;{{product.price}}/{{product.unit}}</h6>
+                    <div class="" style="text-align: center; height: 40px; ">
+                        <a href="{% url 'product_view' product=product.id %}" >View Product<i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                    {% if product.image %}
+                        <img class="img-fluid" src="{{product.image.url}}" alt="connect" style="max-height:300px; width: 100%;">
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    
+                    {% endif %}
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

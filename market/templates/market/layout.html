@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Best Market{% endblock %}</title>
+        <link rel="icon" href="{%static 'market/iconn.ico'%}" >
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- http://getbootstrap.com/docs/4.5/ -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+        </script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <link href="{% static 'market/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <div class="left-logo" style="margin-left: 8rem; position: fixed;">
+                <img src="{% static 'market/logo.png' %}" width="80px">
+            </div>
+            <div style="width: 100%; position: relative;">
+                <div class="right-logo" style="border-radius: 100px; padding: 20px; background-color: white; border:solid; border-color: #c10230; margin-top: 2rem;">
+                    <img src="{% static 'market/images.png' %}" width="250px">
+                </div>
+            </div>
+        </div>
+        <br/>
+        
+        <div class="sticky-background" style="background-color: transparent;">
+        </div>
+        <div class="sticky-background2" style="background-color: red;">
+        </div>
+            <ul class="nav sticky-div" style="justify-content: center; width: 100%;">
+                <li class="nav-item handle-product" style="padding-right: 10px;">
+                    <b>
+                        <a class="{% if request.resolver_match.url_name == 'index' %}nav-link active{%else%}nav-link unactive{% endif %}" href="{% url 'index' %}">Products</a>
+                    </b>
+                    
+                </li>
+                {% if categories %}
+                <nav class="nav-item" style="padding-right: 10px;">
+                    <div class="mx-auto order-0">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown category ">
+                                <a class="{% if request.resolver_match.url_name == 'category' %}nav-link active{%else%}nav-link unactive{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-left: 15px; padding-right: 15px; padding-top: 5.5px; padding-bottom: 5px;" onclick="setClass()"> 
+                                    <span><b>Categories</b></span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="overflow: visible; z-index: 12;">
+                                    {% for category in categories %}
+                                        <a class="dropdown-item" href="{% url 'category' category=category %}" >{{category}}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item handle-cart" style="padding-right: 10px;">
+                        <b>
+                            <a class="{% if request.resolver_match.url_name == 'watchlist' %}nav-link active{%else%}nav-link unactive{% endif %}" href="{% url 'watchlist' %}">Cart</a>
+                        </b>
+                        
+                    </li>
+
+                    <li class="nav-item" style="padding-right: 10px;">
+                        <b>
+                            <a class="{% if request.resolver_match.url_name == 'logout' %}nav-link active{%else%}nav-link unactive{% endif %}" href="{% url 'logout' %}">Log Out</a>
+                        </b>
+                        
+                    </li>
+                {% else %}
+                <div class="nav">
+                    <li class="nav-item" style="padding-right: 10px;">
+                        <b>
+                            <a class="{% if request.resolver_match.url_name == 'login' %}nav-link active{%else%}nav-link unactive{% endif %}" href="{% url 'login' %}">Log-in</a>
+                        </b>
+                        
+                    </li>
+                    <li class="nav-item" style="padding-right: 10px;">
+                        <b>
+                            <a class="{% if request.resolver_match.url_name == 'register' %}nav-link active{%else%}nav-link unactive{% endif %}" href="{% url 'register' %}">Register</a>
+                        </b>
+                        
+                    </li>
+                </div>
+                    
+                {% endif %}
+            </ul>
+            <div class="sticky-div2" style="text-align: center; margin-top: 15px;">
+                {% if user.is_authenticated %}
+                <span style="padding: 3px; margin-top: 5px; font-weight: 1000; font-size: 20px; background-color: white; border-radius: 25px; padding-left: 10px; padding-right: 10px;">
+                    <span style="font-weight: 1200; color: rgb(0, 0, 0);">{{user.username | upper}}</span>
+                </span>
+                {% else %}
+                    {% if request.resolver_match.url_name == 'login' %}
+                        
+                    {% elif request.resolver_match.url_name == 'register' %}
+
+                    {% else %}
+                        <span style="padding: 3px; margin-top: 5px; font-weight: 1000; font-size: 20px; background-color: white; border-radius: 25px; padding-left: 10px; padding-right: 10px;">
+                            Please Log-in
+                        </span>
+                    {% endif %}
+                {% endif %}
+            </div>
+        <hr>
+        {% block body %}
+        {% endblock %}
+    </body>
+    <script src="{% static 'market/app.js' %}"></script>
+</html>

@@ -1,0 +1,71 @@
+{% extends "market/layout.html" %}
+{% load static %}
+{% block body %}
+
+<div>
+
+    {% if my_watchlist.products.all %}
+    <div class="container-fluid">
+        <div class="row">
+        {% for product in my_watchlist.products.all %}
+            <div id="product{{product.id}}" class="card list-details col-12" style="margin-bottom: 1rem;">
+                <div class="card-body">
+                    <div class="row-table" style="display: flex; align-items: center; flex-wrap: wrap;">
+                        <div class="name-table">
+                            <a href="{% url 'product_view' product=product.id %}"><h5 class="card-title">{{product.title}}</h5></a>
+                        </div>
+                        <div class="image-table">
+                            {% if product.image %}
+                                <img class="img-fluid" src="{{product.image.url}}" alt="connect" width="40">
+                            {% endif %}
+                        </div>
+                        <div class="category-table">
+                            <p class="product product-description product-category">[<a class="" href="{% url 'category' category=product.category.name %}">{{product.category}}</a>]</p>
+                        </div>
+                        <div class="unit-table">
+                            <p class="product-price"> &#8377; {{product.price}}/{{product.unit}}</p>
+                        </div>
+                        <div class="buttons-table" style="display: flex; justify-content: space-between; align-items: center;">
+                            {% for quantity in quantity %}
+                                {% if quantity.products.id == product.id %}
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <form id="decrease-quantity" action="{% url 'decrease-quantity' product=product.id%}">
+                                        {% csrf_token %}
+                                        <button style=" margin-right: 1rem; border-radius: 70%; width: 26px; height: 26px;" id="decrease-quantity" class="decrease-quantity" type="submit"><i id="heart" style="color:blue;" class="fa fa-heart-o">-</i></button>
+                                    </form> 
+                                    <p style=" margin-right: 1rem; margin-top: 13px;" class="product-price">{{quantity.quantity}}</p>
+                                    <form id="increase-quantity" action="{% url 'increase-quantity' product=product.id%}">
+                                        {% csrf_token %}
+                                        <button style=" margin-right: 1rem; border-radius: 70%; width: 26px; height: 26px;" id="increase-quantity" class="increase-quantity" type="submit"><i id="heart" style="color:blue;" class="fa fa-heart-o">+</i></button>
+                                    </form> 
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            <form data-auction={{product.id}} id="deleteFromWatchlist" action="{% url 'remove-watchlist' product=product.id %}">
+                                {% csrf_token %}
+                                <button class="" style=" margin-left: 3rem; border-radius: 25px;"> <i class="fa fa-close" style="color:red;" >Delete from Cart</i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        {% endfor %}
+        </div>
+    </div>
+    <div class="" style="padding: 5px; width: 100%;">
+        <div class="right-logo" style="text-align: center; border-radius: 25px; font-weight: 500; font-size: 20px;">
+            <h3 style="background-color: white; border-radius: 25px; font-weight: 600; font-size: 35px;">Total:  &#8377; {{total}}</h3>
+        </div>
+    </div>
+    {% else %}
+        <div class="empty" style="text-align: center;">
+            <p>
+                <span style="background: #9a0e2a; color: white; border-radius: 25px; padding: 5px;">
+                    Your watchlist is empty!
+                </span>
+            </p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
